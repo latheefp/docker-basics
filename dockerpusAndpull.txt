@@ -1,0 +1,24 @@
+1. login to docker registry, Registry in docker registry first. https://hub.docker.com/
+
+docker login -u <user>
+
+2. tag an image and push it
+docker tag httpd:latest  latheefp/httpd:test2.0 
+
+3. push a image to docker hub
+
+4. Tag the same image one more time and push docker.
+docker tag httpd:test  latheefp/httpd:test2.0
+docker push latheefp/httpd:version3.0
+
+5. delete the local copy of the tagged image. 
+
+docker image rm latheefp/httpd:version3.0
+
+
+3. download the tagged image and run it
+
+
+docker run -p 8090:80  -d latheefp/httpd:version3.0
+http://localhost:8090
+

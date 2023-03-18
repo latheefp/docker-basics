@@ -1,0 +1,58 @@
+1. Do the config check
+docker-compose-v1.exe config
+2. Start the docker containers 
+ docker-compose-v1.exe up -d
+
+3. Get the service status.
+docker-compose-v1.exe ps --service
+
+4. Get the container status.
+
+ docker-compose-v1.exe ps
+
+5. to scale up the radis-slave
+
+ docker-compose-v1.exe scale redis-slave=3
+
+6.Scaling can also be done by using up command as well with the --scale flag.
+
+docker-compose up --scale redis-master=3 -d 
+
+
+7. to see the logs.
+
+ docker-compose-v1.exe logs
+ 
+ 
+ 
+ 
+ 
+ 
+ Ref:
+ PS C:\Users\lathe\Documents\GitHub\docker-basics\docker-compose-service> docker-compose-v1.exe ps
+                Name                              Command                State              Ports
+----------------------------------------------------------------------------------------------------------
+docker-compose-service_frontend_1      apache2-foreground               Up         0.0.0.0:8081->80/tcp
+docker-compose-service_redis-slave_1   /entrypoint.sh /bin/sh -c  ...   Exit 139
+webserver                              docker-entrypoint.sh redis ...   Up         0.0.0.0:64506->6379/tcp
+PS C:\Users\lathe\Documents\GitHub\docker-basics\docker-compose-service> docker-compose-v1.exe ps --service
+redis-master
+redis-slave
+frontend
+PS C:\Users\lathe\Documents\GitHub\docker-basics\docker-compose-service>
+
+
+PS C:\Users\lathe\Documents\GitHub\docker-basics\docker-compose-service> docker-compose-v1.exe scale redis-slave=3
+WARNING: The scale command is deprecated. Use the up command with the --scale flag instead.
+Starting docker-compose-service_redis-slave_1 ... done
+Creating docker-compose-service_redis-slave_2 ... done
+Creating docker-compose-service_redis-slave_3 ... done
+PS C:\Users\lathe\Documents\GitHub\docker-basics\docker-compose-service> docker-compose-v1.exe ps
+                Name                              Command                State              Ports
+----------------------------------------------------------------------------------------------------------
+docker-compose-service_frontend_1      apache2-foreground               Up         0.0.0.0:8081->80/tcp
+docker-compose-service_redis-slave_1   /entrypoint.sh /bin/sh -c  ...   Exit 139
+docker-compose-service_redis-slave_2   /entrypoint.sh /bin/sh -c  ...   Exit 139
+docker-compose-service_redis-slave_3   /entrypoint.sh /bin/sh -c  ...   Exit 139
+webserver                              docker-entrypoint.sh redis ...   Up         0.0.0.0:64506->6379/tcp
+PS C:\Users\lathe\Documents\GitHub\docker-basics\docker-compose-service>

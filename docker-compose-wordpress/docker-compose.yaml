@@ -1,0 +1,21 @@
+wordpress:
+    image: wordpress
+    links:
+     - mariadb:mysql  ##mariadb will be reachable as mysql from wordpress container. 
+    environment:
+     - WORDPRESS_DB_PASSWORD=password
+     - WORDPRESS_DB_USER=root
+    ports:
+     - "8080:80"
+    volumes:
+   #  - ./html:/var/www/html  # for linux
+      - C:\Users\lathe\Documents\docker\wp\html:/var/www/html
+  #    - C:\Users\lathe\Documents\docker\wp\html\files:/var/www/html/files
+mariadb:
+    image: mariadb
+    environment:
+     - MYSQL_ROOT_PASSWORD=password
+     - MYSQL_DATABASE=wordpress
+    volumes:
+    # - ./database:/var/lib/mysql  #linux
+    - C:\Users\lathe\Documents\docker\wp\mysql:/var/lib/mysql

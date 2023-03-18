@@ -1,0 +1,4 @@
+1. Download your docker desktop application from here
+https://www.docker.com/products/docker-desktop/
+
+2. After installation reboot yoru pc
