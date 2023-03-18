@@ -1,0 +1,31 @@
+Docker Compose tool is used to define and start running multi-container Docker applications. Configuration is as easy,there would be YAML file to configure your application’s services/networks/volumes etc., Then, with a single command, you can create and start all the services from the compose configuration.
+
+1. create a docker filename with any of the filename:
+     docker-compose.yml, docker-compose.yaml, compose.yml, compose.yaml
+	 
+2. Now create the new containers with the command below
+docker-compose-v1.exe up -d	 
+access the url https://localhost:8080
+http://localhost:8080//wp-login.php login page
+
+3. To bring down and bring up all the docker  containers part of this dockercompose. 
+
+docker-compose-v1.exe stop
+docker-compose-v1.exe start
+ 
+ 4. for just pulling the image , you can run below.
+ 
+ docker-compose-v1.exe pull 
+ 5. 
+ # Starts all stopped containers in the work directory
+docker-compose start
+# Stops all currently running containers in the work directory
+docker-compose stop
+# Validates and shows the configuration
+docker-compose config
+# Lists all running containers in the work directory
+docker-compose ps
+# Stops and removes all containers in the work directory
+docker-compose down
+
+

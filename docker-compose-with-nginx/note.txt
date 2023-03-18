@@ -1,0 +1,32 @@
+1. Docker pull to pull the image firts
+ docker-compose-v1.exe pull
+
+2. Validate the image is availabel in local repo.
+
+
+PS C:\Users\lathe\Documents\GitHub\docker-basics\docker-compose-with-nginx> docker images
+REPOSITORY                            TAG          IMAGE ID       CREATED       SIZE
+mariadb                               latest       4a632f970181   2 days ago    401MB
+docker                                latest       9e089f49ffe8   4 days ago    311MB
+latheefp/httpd                        test2.0      daab1fa13f86   10 days ago   145MB
+latheefp/httpd                        version3.0   daab1fa13f86   10 days ago   145MB
+httpd                                 latest       daab1fa13f86   10 days ago   145MB
+pspdfkit/pspdfkit                     latest       89f205d4f75f   10 days ago   2.41GB
+wordpress                             latest       8fec96b2307f   2 weeks ago   615MB
+nginx                                 latest       904b8cb13b93   2 weeks ago   142MB
+redis                                 latest       f9c173b0f012   2 weeks ago   117MB
+postgres                              latest       3b6645d2c145   2 weeks ago   379MB
+gcr.io/google-samples/gb-frontend     v3           c038466384ab   7 years ago   510MB
+gcr.io/google_samples/gb-redisslave   v1           5f026ddffa27   7 years ago   110MB
+PS C:\Users\lathe\Documents\GitHub\docker-basics\docker-compose-with-nginx>
+
+3.  docker-compose-v1.exe up -d
+
+4. Valiate its running.
+
+PS C:\Users\lathe\Documents\GitHub\docker-basics\docker-compose-with-nginx> docker-compose-v1.exe ps
+                Name                              Command                       State                   Ports
+----------------------------------------------------------------------------------------------------------------------
+docker-compose-with-nginx_db_1         docker-entrypoint.sh postgres    Up                      5432/tcp
+docker-compose-with-nginx_pspdfkit_1   /usr/bin/dumb-init -- /sbi ...   Up (health: starting)   0.0.0.0:5000->5000/tcp
+PS C:\Users\lathe\Documents\GitHub\docker-basics\docker-compose-with-nginx>

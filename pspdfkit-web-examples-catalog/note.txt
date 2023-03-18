@@ -1,0 +1,7 @@
+1. Bring the service up
+docker-compose-v1.exe up -d 
+
+2. list the services
+docker-compose-v1.exe ps --service
+3. Scale the service to 3
+docker-compose up --scale  pspdfkit=3  -d
