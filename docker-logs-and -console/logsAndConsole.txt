@@ -1,0 +1,41 @@
+1. You can quickly run a container with a pre-built .NET Docker image, based on the ASP.NET Core sample.
+
+Type the following command to run a sample web application:
+
+ docker run -it --rm -p 8000:80 --name aspnetcore_sample -d  mcr.microsoft.com/dotnet/samples:aspnetapp -d
+ 
+ 
+2. to access the logs, run docker logs <docker ID>
+
+PS C:\Users\lathe\Documents\GitHub\docker-basics\docker-logs-and -console> docker logs 53b34dd0a225
+warn: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository[60]
+      Storing keys in a directory '/root/.aspnet/DataProtection-Keys' that may not be persisted outside of the container. Protected data will be unavailable when container is destroyed.
+warn: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager[35]
+      No XML encryptor configured. Key {ec2bc707-9e70-45c6-a6bc-179fefbfd566} may be persisted to storage in unencrypted form.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://[::]:80
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Production
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /app
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+PS C:\Users\lathe\Documents\GitHub\docker-basics\docker-logs-and -console>
+
+
+3. To get follow message, run the command with -follow
+
+docker logs -f  53b34dd0a225
+
+
+
+4. to access the application
+
+http://localhost:8000/
+
+
+4. To access the pod shell and run the command
+
+docker exec -it 53b34dd0a225 sh

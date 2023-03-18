@@ -1,0 +1,38 @@
+1. Create Dockerfile
+
+2. create files
+
+3. docker build -t nginx:1.0 .
+
+4. Chcek the image in docker registry.
+PS C:\Users\lathe\Documents\GitHub\docker-basics\docker-build-example> docker images
+REPOSITORY                         TAG         IMAGE ID       CREATED          SIZE
+nginx                              1.0         0b659c406cf5   22 seconds ago   168MB
+mcr.microsoft.com/dotnet/samples   aspnetapp   15cf2b82a3f5   3 days ago       84.7MB
+PS C:\Users\lathe\Documents\GitHub\docker-basics\docker-build-example>
+
+5. Run the container using the image. 
+
+ docker run -p 8083:80  -d nginx:1.0
+ 
+ http://localhost:8083/
+ 
+
+6. build with tag to upload to docker hub.
+
+ docker build -t latheefp/nginxdemo:1.0 .
+ 
+ 7. push the image to docker hug.
+ 
+ docker push latheefp/nginxdemo:1.0
+ 
+ 8. Delete local copy.
+ 
+  docker image rm 0b659c406cf5 d12795bc4357
+  
+ 9.  Run container using the image loaded to docker hub.
+ 
+ docker run -p 8083:80  -d latheefp/nginxdemo:1.0
+ 
+  http://localhost:8083/
+  

@@ -5,3 +5,15 @@ docker-compose-v1.exe up -d
 docker-compose-v1.exe ps --service
 3. Scale the service to 3
 docker-compose up --scale  pspdfkit=3  -d
+
+
+PS C:\Users\lathe\Documents\GitHub\docker-basics\pspdfkit-web-examples-catalog> docker-compose-v1.exe ps
+                     Name                                    Command                  State                Ports
+-------------------------------------------------------------------------------------------------------------------------
+pspdfkit-web-examples-catalog-db-1                docker-entrypoint.sh postgres    Up             5432/tcp
+pspdfkit-web-examples-catalog-example-1           docker-entrypoint.sh yarn  ...   Up (healthy)   0.0.0.0:3000->3000/tcp
+pspdfkit-web-examples-catalog-pspdfkit-1          /usr/bin/dumb-init -- /sbi ...   Up (healthy)   0.0.0.0:61351->5000/tcp
+pspdfkit-web-examples-catalog-pspdfkit-2          /usr/bin/dumb-init -- /sbi ...   Exit 1
+pspdfkit-web-examples-catalog-pspdfkit-3          /usr/bin/dumb-init -- /sbi ...   Up (healthy)   0.0.0.0:61352->5000/tcp
+pspdfkit-web-examples-catalog-signing_service-1   docker-entrypoint.sh node  ...   Up
+PS C:\Users\lathe\Documents\GitHub\docker-basics\pspdfkit-web-examples-catalog>
