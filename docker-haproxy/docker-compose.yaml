@@ -2,6 +2,10 @@ version: "3"
 services:
   nginx_ha:
     build: .
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
     ports:
       - "8080:80"
       - "8443:443"
