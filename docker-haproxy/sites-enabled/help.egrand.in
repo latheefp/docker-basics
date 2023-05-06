@@ -1,0 +1,22 @@
+
+server {
+    listen 80 ssl;
+    server_name help.egrand.in;
+
+   # ssl_certificate /etc/cert/ssl/chain2.pem;
+   # ssl_certificate_key /etc/cert/ssl/cert2.pem;
+    
+    location / {
+        proxy_pass http://help_egrand:8081;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    location /static/ {
+        alias /var/www/example/static/;
+    }
+
+    location /media/ {
+        alias /var/www/example/media/;
+    }
+}

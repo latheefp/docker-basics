@@ -1,0 +1,18 @@
+version: "3"
+services:
+  nginx_ha:
+    build: .
+    ports:
+      - "8080:80"
+      - "8443:443"
+    networks:
+      my_network:
+        aliases:
+          - mywebapp
+networks:
+  my_network:
+    external:
+      name:  helpgrandelectronics_my-network
+
+
+
