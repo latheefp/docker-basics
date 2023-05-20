@@ -9,6 +9,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - E:\devops\docker-basics\docker-haproxy\sites-enabled:/etc/nginx/site-enabled
     networks:
       my_network:
         aliases:

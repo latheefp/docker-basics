@@ -15,6 +15,7 @@ server {
     location / {
         proxy_pass http://phpmyadmin;
         proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto https;
         proxy_set_header X-Real-IP $remote_addr;
     }
 
