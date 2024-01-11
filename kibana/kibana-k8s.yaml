@@ -1,0 +1,45 @@
+# es-namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: elastic-system
+---
+# kibana-deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: elastic-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kibana
+  template:
+    metadata:
+      labels:
+        app: kibana
+    spec:
+      containers:
+      - name: kibana
+        image: docker.elastic.co/kibana/kibana:7.14.0
+        env:
+        - name: ELASTICSEARCH_URL
+          value: "http://elasticsearch.service:9200"
+        ports:
+        - containerPort: 5601
+---
+# kibana-service
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  namespace: elastic-system
+spec:
+  selector:
+    app: kibana
+  ports:
+    - protocol: TCP
+      port: 5601
+      targetPort: 5601
+  type: LoadBalancer  #Or ClusterIP (based on your configuration)
