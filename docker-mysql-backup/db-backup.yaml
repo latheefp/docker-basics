@@ -1,0 +1,43 @@
+---
+- name: MySQL Backup and Cleanup
+  hosts: ansible_env.DB_HOST
+  become: yes  # Use sudo to run tasks
+  gather_facts: yes
+
+  vars:
+    # Define backup directory and retention period (in seconds)
+    backup_dir: ansible_env.DB_BACKP_DIR
+    retention_period: 604800  # 1 week (7 days * 24 hours * 60 minutes * 60 seconds)
+    mysql_db_user: ansible_env.DB_USER
+    mysql_db_password: ansible_env.DB_PASS
+
+  tasks:
+    - name: Create backup directory if it doesn't exist
+      file:
+        path: {{ backup_dir }}
+        state: directory
+      when: not backup_dir_exists.stat.exists
+
+    - name: Get list of MySQL databases
+      command: "mysql -N -e 'show databases' -u {{ mysql_db_user }} -p{{ mysql_root_password }}"
+      register: mysql_databases
+      ignore_errors: yes  # Ignore errors in case MySQL is not installed
+
+    - name: Backup MySQL databases
+      shell: "mysqldump -u {{ mysql_db_user }} -p{{ mysql_root_password }} {{ item }} > {{ backup_dir }}/{{ item }}_$(date +'%Y%m%d%H%M%S').sql"
+      with_items: "{{ mysql_databases.stdout_lines }}"
+      when: mysql_databases.rc == 0  # Only run if MySQL is installed
+
+    - name: Find and delete old backup files
+      find:
+        paths: "{{ backup_dir }}"
+        age: "{{ retention_period }}"
+        recurse: yes
+        patterns: "*.sql"
+      register: old_backup_files
+
+    - name: Delete old backup files
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ old_backup_files.files }}"

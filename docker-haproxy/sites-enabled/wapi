@@ -1,29 +1,22 @@
 server {
     listen 80;
-    server_name padmin.egrand.in;
+    server_name wapi.egrand.in;
     return 301 https://$server_name$request_uri;
 }
 
-
 server {
     listen 443 ssl;
-    server_name padmin.egrand.in;
-
+    server_name wapi.egrand.in;
     ssl_certificate /etc/certs/ssl/cert2.pem;
     ssl_certificate_key /etc/certs/ssl/privkey2.pem;
 
     location / {
-        proxy_pass http://phpmyadmin;
+        proxy_pass http://wapi;  # Replace 'example_backend' with your actual backend server
+        fastcgi_index index.php;
         proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-Proto https;
         proxy_set_header X-Real-IP $remote_addr;
     }
 
-    location /static/ {
-        alias /var/www/example/static/;
-    }
-
-    location /media/ {
-        alias /var/www/example/media/;
-    }
 }
+
+

@@ -1,0 +1,20 @@
+version: '3'
+services:
+  cadvicer:
+    image: google/cadvisor:latest
+    ports:
+      - 8088:8080
+    volumes:
+      - //:/rootfs:ro
+      - //./pipe/docker_engine://./pipe/docker_engine
+      - //:/sys/fs/cgroup:ro
+      - //:/var/lib/docker:ro
+    networks:
+      my_network:
+        aliases:
+          - mywebapp
+networks:
+  my_network:
+    external:
+      name:  helpgrandelectronics_my-network
+

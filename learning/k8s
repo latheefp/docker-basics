@@ -1,0 +1,14 @@
+#install tree pulgin in kubectl
+kubectl krew install tree
+
+#to use hte deplyoyment
+
+kubectl tree deployment <name>
+
+#gto get all resouce type:
+
+kubectl api-resources
+
+#to view the differece between and manifest and runnign configuration.
+
+kubectl  diff <manifest>

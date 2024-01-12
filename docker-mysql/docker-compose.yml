@@ -1,0 +1,35 @@
+version: "3"
+networks:
+  dev-network:
+    driver: bridge
+
+
+services:
+  db:
+    build: .
+    environment:
+      MYSQL_ROOT_PASSWORD: rootPassword
+      PMA_HOST: db
+      PMA_PORT: 3306
+    volumes:
+      - D:\web\db:/var/lib/mysql
+    networks:
+      - dev-network
+    ports:
+      - 3306:3306
+  phpmyadmin:
+    image:  phpmyadmin/phpmyadmin
+    ports:
+      - 8083:80
+      - 8085:443
+    depends_on:
+      - db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootPassword
+      PMA_HOST: db
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 100000000
+    networks:
+      - dev-network
+    volumes:
+       - ./php.ini:/usr/local/etc/php/php.ini        

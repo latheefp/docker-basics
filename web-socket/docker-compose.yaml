@@ -1,0 +1,8 @@
+version: '3'
+services:
+  websocket-demo:
+    build:
+      context: ./websocket-demo
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"

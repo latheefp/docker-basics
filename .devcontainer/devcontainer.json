@@ -1,0 +1,11 @@
+{
+    "name": "Your Dev Container Configuration",
+    "dockerComposeFile": "docker-compose.yml",
+    "dockerComposeFileValidation": false,
+    "service": "your_service",
+    "workspaceFolder": "/workspace",
+    "settings": {
+        "dockerComposeFile": "docker-compose.override.yml",
+        "dockerComposeProjectName": "myproject"
+    }
+}

@@ -5,25 +5,21 @@ server {
 }
 
 
+
+
 server {
     listen 443 ssl;
     server_name help.egrand.in;
 
-    ssl_certificate /etc/certs/ssl/cert2.pem;
-    ssl_certificate_key /etc/certs/ssl/privkey2.pem;
-
+    ssl_certificate /etc/cert/ssl/chain2.pem;
+    ssl_certificate_key /etc/cert/ssl/cert2.pem;
+    
     location / {
         proxy_pass http://help_egrand;
-      #  proxy_pass http://192.168.8.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    location /static/ {
-        alias /var/www/example/static/;
-    }
-
-    location /media/ {
-        alias /var/www/example/media/;
-    }
 }
