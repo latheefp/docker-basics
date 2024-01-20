@@ -1,0 +1,23 @@
+# Download from Elastic or use Exercise Files
+# If necessary unzip the accounts.zip file
+# https://download.elastic.co/demos/kibana/gettingstarted/accounts.zip
+
+# change to downloaded folder
+cd <path to folder>
+
+# Inspect Accounts.json
+head accounts.json
+
+# Load via curl, notice the endpoint which creates the 'bank' index
+curl -XPOST -i -k \
+-H "Content-Type: application/x-ndjson" \
+-H "Authorization: ApiKey $ES_API_KEY" \
+$ES_HOST/bank/_bulk?pretty --data-binary @accounts.json; echo
+
+
+# check inside ES
+GET /_cat/indices
+GET /bank
+
+# set index pattern in Kibana
+Management > Stack Management > Kibana > Data Views > Create data view > bank

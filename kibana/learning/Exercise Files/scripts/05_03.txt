@@ -1,0 +1,50 @@
+# Look at the percentiles for the balances
+GET bank/_search
+{
+  "size": 0,
+  "aggs": {
+    "pct_balances": {
+      "percentiles": {
+        "field": "balance",
+        "percents": [
+          1,
+          5,
+          25,
+          50,
+          75,
+          95,
+          99
+        ]
+      }
+    }
+  }
+}
+
+
+# We can use the percentile ranks agg for checking a individual values
+GET bank/_search
+{
+  "size": 0,
+  "aggs": {
+    "bal_outlier": {
+      "percentile_ranks": {
+        "field": "balance",
+        "values": [35000,50000]        
+      }
+    }
+  }
+}
+
+# Similarly we can create a histogram
+GET bank/_search
+{
+  "size": 0,
+  "aggs": {
+    "bals": {
+      "histogram": {
+        "field": "balance",
+        "interval": 500
+      }
+    }
+  }
+}

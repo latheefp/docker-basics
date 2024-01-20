@@ -1,0 +1,104 @@
+# Download sample logs from Elastic or use Exercise Files
+# If necessary unzip/tar logs.jsonl.gz
+# https://download.elastic.co/demos/kibana/gettingstarted/logs.jsonl.gz
+
+
+# Add mapping for lat/lon geo properties for logs
+PUT /logstash-2015.05.18
+{
+  "mappings": {
+    "properties": {
+      "geo": {
+        "properties": {
+          "coordinates": {
+            "type": "geo_point"
+          }
+        }
+      }
+    }
+  }
+}
+
+# Create two more to simulate daily logs
+PUT /logstash-2015.05.19
+{
+  "mappings": {
+    "properties": {
+      "geo": {
+        "properties": {
+          "coordinates": {
+            "type": "geo_point"
+          }
+        }
+      }
+    }
+  }
+}
+PUT /logstash-2015.05.20
+{
+  "mappings": {
+    "properties": {
+      "geo": {
+        "properties": {
+          "coordinates": {
+            "type": "geo_point"
+          }
+        }
+      }
+    }
+  }
+}
+# Check out structure of log data
+head logs.jsonl
+
+# Import log files
+curl -XPOST -i -k \
+-H "Content-Type: application/x-ndjson" \
+-H "Authorization: ApiKey $ES_API_KEY" \
+$ES_HOST/_bulk?pretty --data-binary @logs.jsonl; echo
+
+
+# Check ES for data
+GET /_cat/indices/logstash-*
+
+# Change default index pattern in Kibana
+
+# Load Shakespeare data (download from elastic or find in the Exercise Files)
+# Check out shakespeare.json
+# https://download.elastic.co/demos/kibana/gettingstarted/shakespeare_6.0.json
+
+head shakespeare.json
+
+# Shakespeare Schema
+{
+    "line_id": INT,
+    "play_name": "String",
+    "speech_number": INT,
+    "line_number": "String",
+    "speaker": "String",
+    "text_entry": "String",
+}
+
+# Create Shakespeare index with data types
+PUT /shakespeare
+{
+ "mappings" : {
+   "properties" : {
+    "speaker" : {"type": "keyword" },
+    "play_name" : {"type": "keyword" },
+    "line_id" : { "type" : "integer" },
+    "speech_number" : { "type" : "integer" }
+   }
+ }
+}
+
+# Load Shakespeare data
+curl -XPOST -i -k \
+-H "Content-Type: application/x-ndjson" \
+-H "Authorization: ApiKey $ES_API_KEY" \
+$ES_HOST/shakespeare/_bulk?pretty --data-binary @shakespeare.json; echo
+
+# Check out index in ES
+GET /shakespeare
+GET /_cat/indices
+GET shakespeare/_doc/2

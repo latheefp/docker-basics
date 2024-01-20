@@ -1,0 +1,101 @@
+# Count of Accounts by State
+# Must be keyword field
+GET bank/_search
+{
+  "size": 0,
+  "aggs": {
+    "states": {
+      "terms": {
+        "field": "state.keyword"
+      }
+    }
+  }
+}
+
+# Add average balance in each state
+# Nesting the metric inside the agg
+GET bank/_search
+{
+  "size": 0,
+  "aggs": {
+    "states": {
+      "terms": {
+        "field": "state.keyword"
+      },
+      "aggs": {
+        "avg_bal": {
+          "avg": {
+            "field": "balance"
+          }
+        }
+      }
+    }
+  }
+}
+
+# Breakdown further with Nesting
+GET bank/_search
+{
+  "size": 0,
+  "aggs": {
+    "states": {
+      "terms": {
+        "field": "state.keyword"
+      },
+      "aggs": {
+        "avg_bal": {
+          "avg": {
+            "field": "balance"
+          }
+        },
+        "age":{
+          "terms": {
+            "field": "age"
+          }
+        }
+      }
+    }
+  }
+}
+
+# Add avg_price metric to lowest level
+GET bank/_search
+{
+  "size": 0,
+  "aggs": {
+    "states": {
+      "terms": {
+        "field": "state.keyword"
+      },
+      "aggs": {
+        "avg_bal": {
+          "avg": {
+            "field": "balance"
+          }
+        },
+        "age":{
+          "terms": {
+            "field": "age"
+          },
+          "aggs": {"avg_bal": {"avg": {"field": "balance"} }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+## Get stats about bank balances
+## Size=1 to omit search results
+GET bank/_search
+{
+  "size": 1,
+  "aggs": {
+    "balance-stats": {
+      "stats": {
+        "field": "balance"
+      }
+    }
+  }
+}

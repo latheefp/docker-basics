@@ -1,0 +1,11 @@
+endpoints:
+
+Elasticsearch
+https://b99c668c7507418189bee57e6890b78b.us-central1.gcp.cloud.es.io
+
+Kibana:
+https://8e268a8df7784db78e044f43271e1ed6.us-central1.gcp.cloud.es.io:9243
+
+
+API key: NG1kNkFZMEJzWm1ZMnh1SC03TUU6TENIZ0s0Y2lRSVdpZWxIVHZYQ3BrUQ==
+

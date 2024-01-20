@@ -1,0 +1,43 @@
+# Get ES endpoint
+# from https://cloud.elastic.co/home click gear icon next to cluster
+# copy endpoint next to "Elasticsearch" under Applications and create variable in terminal
+
+ES_HOST="<PASTE ENDPOINT HERE>"
+
+# now create API key
+# click on security then in settings "kibana" link
+# scroll down to API Keys then "Create API Key"
+# create variable in terminal
+
+ES_API_KEY="<PASTE API KEY HERE>"
+
+# Create File with Requests (make sure to include new line at end of file)
+# open VI and create a file called "reqs"
+vi reqs
+
+# type "i" then copy/paste this data into vi
+
+{ "index" : { "_index" : "my-test", "_id" : "1" } }
+{ "col1" : "val1"}
+{ "index" : { "_index" : "my-test", "_id" : "2" } }
+{ "col1" : "val2"}
+{ "index" : { "_index" : "my-test", "_id" : "3" } }
+{ "col1" : "val3" }
+
+# hit esc
+# type :wq to save the file and exit vi
+# type ls to see the file is there
+
+
+# using curl, upload data file to cluster and create index
+
+curl -XPOST -i -k \
+-H "Content-Type: application/x-ndjson" \
+-H "Authorization: ApiKey $ES_API_KEY" \
+$ES_HOST/_bulk --data-binary "@reqs"; echo      
+
+
+# Login to cluster in web portal, go to dev tools, look for indices and return our data
+GET /_cat/indices?v
+GET /my-test
+GET /my-test/_doc/1
