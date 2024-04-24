@@ -32,4 +32,5 @@ services:
     networks:
       - dev-network
     volumes:
-       - ./php.ini:/usr/local/etc/php/php.ini        
+       - ./php.ini:/usr/local/etc/php/php.ini   
+       - ./php.ini:/usr/local/etc/php/conf.d/custom.ini
