@@ -65,8 +65,8 @@ net_buffer_length = 32384
 # Both location gets rotated by the cronjob.
 # Be aware that this log type is a performance killer.
 # Recommend only changing this at runtime for short testing periods if needed!
-#general_log_file       = /var/log/mysql/mysql.log
-#general_log            = 1
+general_log_file       = /var/log/mysql/mysql.log
+general_log            = 1
 
 # When running under systemd, error logging goes via stdout/stderr to journald
 # and when running legacy init error logging goes to syslog due to

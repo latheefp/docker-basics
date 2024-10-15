@@ -1,0 +1,100 @@
+vm_configs = [
+
+            {
+                pm_user         = "root@pam"
+                pm_password     = "max3days"
+                pm_api_url      = "https://192.168.8.150:8006/api2/json"
+                target_node     = "pve"
+                clone_template  = "ubuntu-22-clone"
+                vm_cores        = 2
+                vm_memory       = 2048
+                vm_disk_size    = "50G"
+                vm_bridge       = "vmbr0"
+                ci_user         = "ubuntu"
+                ci_password     = "max3days"
+
+                ci_ip      = "192.168.8.120"
+                ci_gateway = "192.168.8.1"
+                nextid     = 120
+                vm_name    = "awx"
+            },
+            {
+                pm_user         = "root@pam"
+                pm_password     = "max3days"
+                pm_api_url      = "https://192.168.8.150:8006/api2/json"
+                target_node     = "pve"
+                clone_template  = "ubuntu-22-clone"
+                vm_cores        = 2
+                vm_memory       = 2048
+                vm_disk_size    = "50G"
+                vm_bridge       = "vmbr0"
+                ci_user         = "ubuntu"
+                ci_password     = "max3days"
+
+                ci_ip      = "192.168.8.121"
+                ci_gateway = "192.168.8.1"
+                nextid     = 121
+                vm_name    = "nginx-vpn"
+            },
+                  {
+                pm_user         = "root@pam"
+                pm_password     = "max3days"
+                pm_api_url      = "https://192.168.8.150:8006/api2/json"
+                target_node     = "pve"
+                clone_template  = "ubuntu-22-clone"
+                vm_cores        = 2
+                vm_memory       = 2048
+                vm_disk_size    = "50G"
+                vm_bridge       = "vmbr0"
+                ci_user         = "ubuntu"
+                ci_password     = "max3days"
+
+                ci_ip      = "192.168.8.122"
+                ci_gateway = "192.168.8.1"
+                nextid     = 122
+                vm_name    = "k8s-1"
+            },
+             {
+                pm_user         = "root@pam"
+                pm_password     = "max3days"
+                pm_api_url      = "https://192.168.8.150:8006/api2/json"
+                target_node     = "pve"
+                clone_template  = "ubuntu-22-clone"
+                vm_cores        = 2
+                vm_memory       = 2048
+                vm_disk_size    = "50G"
+                vm_bridge       = "vmbr0"
+                ci_user         = "ubuntu"
+                ci_password     = "max3days"
+
+                ci_ip      = "192.168.8.123"
+                ci_gateway = "192.168.8.1"
+                nextid     = 123
+                vm_name    = "k8s-2"
+            },
+             {
+                pm_user         = "root@pam"
+                pm_password     = "max3days"
+                pm_api_url      = "https://192.168.8.150:8006/api2/json"
+                target_node     = "pve"
+                clone_template  = "ubuntu-22-clone"
+                vm_cores        = 2
+                vm_memory       = 2048
+                vm_disk_size    = "50G"
+                vm_bridge       = "vmbr0"
+                ci_user         = "ubuntu"
+                ci_password     = "max3days"
+
+                ci_ip      = "192.168.8.124"
+                ci_gateway = "192.168.8.1"
+                nextid     = 124
+                vm_name    = "k8s-3"
+            }
+
+  ]
+
+pm_password = "max3days"
+
+pm_api_url = "https://192.168.8.150:8006/api2/json"
+
+pm_user = "root@pam"
