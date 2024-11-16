@@ -1,0 +1,67 @@
+---
+# tasks file for bootstrap-role
+- name: Gather facts
+  ansible.builtin.setup:
+
+- name: Fail if not Ubuntu 22.04
+  ansible.builtin.fail:
+    msg: "This playbook only supports Ubuntu 22.04. This server is not running Ubuntu 22."
+  when: ansible_facts['distribution'] != 'Ubuntu' or ansible_facts['distribution_version'] != '22.04'
+
+- name: Ensure the ansible user exists
+  ansible.builtin.user:
+    name: ansible
+    shell: /bin/bash
+    state: present
+    create_home: true
+
+- name: Ensure the group admin exists
+  ansible.builtin.group:
+    name: admin
+    state: present
+
+- name: Create the .ssh directory for the ansible user
+  ansible.builtin.file:
+    path: /home/ansible/.ssh
+    state: directory
+    owner: ansible
+    group: admin
+    mode: '0700'
+
+- name: Copy the SSH public key to the ansible user's authorized_keys
+  ansible.builtin.copy:
+    src: files/ansible.pub
+    dest: /home/ansible/.ssh/authorized_keys
+    owner: ansible
+    group: ansible
+    mode: '0600'
+
+- name: Configure sudoers to allow ansible user to use sudo without password
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    line: 'ansible ALL=(ALL) NOPASSWD: ALL'
+    validate: '/usr/sbin/visudo -cf %s'
+
+- name: Update the sources.list with ubuntu 22 sources.list.
+  ansible.builtin.copy:
+    src: files/sources-22.list
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: '0644'
+    force: true
+  when: ansible_facts['distribution'] == 'Ubuntu' and ansible_facts['distribution_version'] == '22.04'
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    autoclean: true
+    autoremove: true
+    update_cache: true
+    cache_valid_time: "3600"
+
+- name: Upgrade all apt packages
+  ansible.builtin.apt:
+    upgrade: dist
+
+- name: Make current IP static
+ 

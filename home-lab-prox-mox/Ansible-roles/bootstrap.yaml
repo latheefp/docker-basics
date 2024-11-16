@@ -1,0 +1,6 @@
+---
+- name: Run home-lab role
+  hosts: proxy
+  become: true
+  roles:
+    - bootstrap-role

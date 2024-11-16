@@ -1,0 +1,6 @@
+---
+# vars file for bootstrap-role
+# defaults file for bootstrap-role
+ansible_user: "latheef"
+ansible_ssh_pass: "max3days"
+ansible_become_password: "max3days"

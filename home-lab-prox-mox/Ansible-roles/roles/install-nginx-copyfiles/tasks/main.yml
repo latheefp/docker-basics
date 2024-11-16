@@ -1,0 +1,119 @@
+---
+# tasks file for home-lab
+
+- name: Ensure directory exists
+  ansible.builtin.file:
+    path: /etc/certs/ssl
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+
+- name: Generate private key
+  ansible.builtin.command: >
+    openssl genrsa -out /etc/certs/ssl/privkey2.pem 2048
+  args:
+    creates: /etc/certs/ssl/privkey2.pem
+
+- name: Create Certificate Signing Request (CSR) for  {{DOMAIN}}
+  ansible.builtin.command: >
+    openssl req -new
+    -key /etc/certs/ssl/privkey2.pem
+    -out /etc/certs/ssl/cert2.csr
+    -subj "/C=US/ST=State/L=City/O=Organization/OU=Department/CN={{DOMAIN}}"
+  args:
+    creates: /etc/certs/ssl/cert2.csr
+
+- name: Generate self-signed certificate
+  ansible.builtin.command: >
+    openssl x509 -req
+    -in /etc/certs/ssl/cert2.csr
+    -signkey /etc/certs/ssl/privkey2.pem
+    -out /etc/certs/ssl/cert2.pem
+    -days 365
+  args:
+    creates: /etc/certs/ssl/cert2.pem
+
+- name: Set permissions for private key
+  ansible.builtin.file:
+    path: /etc/certs/ssl/privkey2.pem
+    mode: '0600'
+    owner: root
+    group: root
+
+- name: Set permissions for certificate
+  ansible.builtin.file:
+    path: /etc/certs/ssl/cert2.pem
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install Nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+
+- name: Start Nginx service
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true  # Ensure Nginx starts on boot
+
+- name: Copy configuration files to sites-available
+  ansible.builtin.copy:
+    src: files/
+    dest: /etc/nginx/sites-available/
+    owner: root
+    group: root
+    mode: '0644'
+    force: true
+
+# - name: Create symbolic links to sites-enabled
+#   command: ln -sf /etc/nginx/sites-available/{{ item }} /etc/nginx/sites-enabled/{{ item }}
+#   with_fileglob:
+#     - /etc/nginx/sites-available/*
+
+- name: Find files in /etc/nginx/sites-available
+  ansible.builtin.find:
+    paths: /etc/nginx/sites-available
+    recurse: false
+    file_type: file
+  register: nginx_files
+
+- name: Print files
+  ansible.builtin.debug:
+    var: nginx_files
+
+# - name: Create symbolic links to sites-enabled
+#   command: ln -sf /etc/nginx/sites-available/{{ item }} /etc/nginx/sites-enabled/{{ item | basename }}
+#   with_fileglob:
+#     - /etc/nginx/sites-available/*
+
+
+- name: Create symbolic links to sites-enabled
+  ansible.builtin.command: ln -sf /etc/nginx/sites-available/{{ item.path | basename }} /etc/nginx/sites-enabled/{{ item.path | basename }}
+  with_items: "{{ nginx_files.files }}"
+  changed_when: true  # No state change to record
+
+
+
+- name: Test Nginx configuration
+  ansible.builtin.command: nginx -t
+  register: nginx_test
+  failed_when: nginx_test.rc != 0  # Fail if test fails
+  changed_when: false  # No state change to record
+
+- name: Restart Nginx if the configuration is valid
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
+  when: nginx_test.rc == 0  # Only restart if the test passes
+
+
+
+    
+    
